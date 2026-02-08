@@ -36,13 +36,13 @@
       position: fixed !important;
       bottom: 100px !important;
       right: 24px !important;
-      width: 64px !important;
-      height: 64px !important;
+      width: 68px !important;
+      height: 68px !important;
       border-radius: 50% !important;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
-      border: none !important;
+      background: linear-gradient(135deg, #0066ff 0%, #0044cc 100%) !important;
+      border: 2px solid rgba(255,255,255,0.2) !important;
       cursor: pointer !important;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+      box-shadow: 0 4px 24px rgba(0,102,255,0.4) !important;
       z-index: 999999 !important;
       display: flex !important;
       align-items: center !important;
@@ -52,12 +52,12 @@
 
     #gs-chat-btn:hover {
       transform: scale(1.1);
-      box-shadow: 0 6px 28px rgba(0,0,0,0.4);
+      box-shadow: 0 6px 32px rgba(0,102,255,0.5);
     }
 
     #gs-chat-btn svg {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       fill: #ffffff;
       transition: transform 0.3s ease;
     }
@@ -69,16 +69,56 @@
 
     #gs-chat-btn .pulse {
       position: absolute;
-      width: 64px;
-      height: 64px;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
-      background: rgba(26, 26, 46, 0.3);
+      background: rgba(0,102,255,0.3);
       animation: gs-pulse 2s ease-out infinite;
     }
 
     @keyframes gs-pulse {
       0% { transform: scale(1); opacity: 0.6; }
       100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    #gs-chat-label {
+      position: fixed !important;
+      bottom: 115px !important;
+      right: 100px !important;
+      background: #0066ff !important;
+      color: #fff !important;
+      padding: 8px 16px !important;
+      border-radius: 20px !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      font-family: 'Segoe UI', sans-serif !important;
+      box-shadow: 0 4px 16px rgba(0,102,255,0.3) !important;
+      z-index: 999998 !important;
+      white-space: nowrap !important;
+      animation: gs-label-bounce 1s ease-in-out 3 !important;
+      cursor: pointer !important;
+      transition: opacity 0.3s ease !important;
+    }
+
+    #gs-chat-label::after {
+      content: '' !important;
+      position: absolute !important;
+      right: -8px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      border-left: 8px solid #0066ff !important;
+      border-top: 6px solid transparent !important;
+      border-bottom: 6px solid transparent !important;
+    }
+
+    #gs-chat-label.gs-hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    @keyframes gs-label-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
     #gs-chat-window {
@@ -384,10 +424,13 @@
   const widget = document.createElement("div");
   widget.id = "gs-chat-widget";
   widget.innerHTML = `
+    <!-- Label flotante -->
+    <div id="gs-chat-label">💬 Chatea con nuestra IA</div>
+
     <!-- Botón flotante -->
-    <button id="gs-chat-btn" aria-label="Abrir chat Garrido Sportech">
+    <button id="gs-chat-btn" aria-label="Abrir chat con asistente IA de Garrido Sportech">
       <div class="pulse"></div>
-      <svg class="chat-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+      <svg class="chat-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><circle cx="9" cy="10" r="1.5"/><circle cx="15" cy="10" r="1.5"/><path d="M12 17c-2.33 0-4.32-1.45-5.12-3.5h1.67c.69 1.19 1.97 2 3.45 2s2.75-.81 3.45-2h1.67c-.8 2.05-2.79 3.5-5.12 3.5z"/></svg>
       <svg class="close-icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
     </button>
 
@@ -441,11 +484,22 @@
   const inputEl = document.getElementById("gs-input");
   const sendBtn = document.getElementById("gs-send-btn");
   const quickActions = document.getElementById("gs-quick-actions");
+  const chatLabel = document.getElementById("gs-chat-label");
+
+  // Ocultar label después de 8 segundos o al hacer clic
+  if (chatLabel) {
+    setTimeout(() => chatLabel.classList.add("gs-hidden"), 8000);
+    chatLabel.addEventListener("click", () => {
+      chatLabel.classList.add("gs-hidden");
+      chatBtn.click();
+    });
+  }
 
   chatBtn.addEventListener("click", () => {
     isOpen = !isOpen;
     chatBtn.classList.toggle("open", isOpen);
     chatWindow.classList.toggle("visible", isOpen);
+    if (chatLabel) chatLabel.classList.add("gs-hidden");
     if (isOpen) {
       setTimeout(() => inputEl.focus(), 300);
     }
