@@ -16,7 +16,7 @@
   // Buscar el script tag antes de que se pierda la referencia
   const allScripts = document.querySelectorAll('script[data-api]');
   const scriptTag = allScripts.length > 0 ? allScripts[allScripts.length - 1] : null;
-  const API_URL = (scriptTag && scriptTag.getAttribute("data-api")) || "http://localhost:8000";
+  const API_URL = (scriptTag && scriptTag.getAttribute("data-api")) || "https://agente-asesor-comercial.onrender.com";
 
   let sessionId = null;
   let isOpen = false;
