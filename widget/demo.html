@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Widget Chat — Garrido Sportech</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a1a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .demo-info {
+            max-width: 600px;
+            padding: 40px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+        code {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .arrow {
+            position: fixed;
+            bottom: 100px;
+            right: 100px;
+            font-size: 24px;
+            animation: point 1s ease-in-out infinite;
+        }
+        @keyframes point {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10px, 10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-info">
+        <h1>🏋️ Garrido Sportech</h1>
+        <p>Demo del widget de chat integrado.</p>
+        <p>Haz clic en el icono de chat <strong>↘</strong> para abrir la conversación con el asistente técnico IA.</p>
+        <br>
+        <p style="font-size: 13px; color: #666;">
+            Para integrar en tu sitio, agrega:<br><br>
+            <code>&lt;script src="/widget/chat-widget.js" data-api="http://localhost:8000" defer&gt;&lt;/script&gt;</code>
+        </p>
+    </div>
+    <div class="arrow">↘</div>
+
+    <!-- Widget de chat -->
+    <script src="/widget/chat-widget.js" data-api="http://localhost:8000" defer></script>
+</body>
+</html>

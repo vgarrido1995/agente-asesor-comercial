@@ -1,0 +1,49 @@
+<!--
+  ============================================================
+  GARRIDO SPORTECH — Widget de Chat IA
+  ============================================================
+  
+  INSTRUCCIONES PARA INTEGRAR EN garridosportech.cl:
+  
+  1. Sube el archivo "chat-widget.js" a tu repositorio de GitHub Pages
+     en la misma carpeta que tu index.html (o en una subcarpeta "widget/").
+  
+  2. Agrega esta línea justo ANTES del cierre </body> en tu index.html:
+  
+     LOCAL (desarrollo):
+     <script src="chat-widget.js" data-api="http://localhost:8000" defer></script>
+  
+     PRODUCCIÓN (cuando despliegues la API):
+     <script src="chat-widget.js" data-api="https://tu-servidor-api.com" defer></script>
+  
+  3. Para desplegar la API gratis, puedes usar:
+     - Railway (railway.app) — gratis con límites
+     - Render (render.com) — tier gratuito
+     - Fly.io — tier gratuito
+     
+     Comando para desplegar:
+     uvicorn api:app --host 0.0.0.0 --port 8000
+  
+  ============================================================
+  
+  EJEMPLO COMPLETO DE INTEGRACIÓN:
+-->
+
+<!-- Pegar esto justo antes de </body> en garridosportech.cl -->
+<script src="chat-widget.js" data-api="http://localhost:8000" defer></script>
+
+<!--
+  NOTA: El atributo data-api debe apuntar a donde esté corriendo tu API.
+  
+  Archivos necesarios en tu servidor API:
+  - api.py          (FastAPI backend)
+  - agent.py        (Motor del agente)
+  - config.py       (Configuración)
+  - catalog.py      (Catálogo de productos)
+  - tools.py        (Herramientas del agente)
+  - .env            (API key de Groq)
+  - widget/         (Carpeta con chat-widget.js)
+  
+  Archivo necesario en GitHub Pages (garridosportech.cl):
+  - chat-widget.js  (El widget — cópialo a tu repo)
+-->
